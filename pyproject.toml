@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "InsituRadi"
+authors = [
+    {name = "Helena Laasch", email = "helena.laasch@gmx.ch"},
+    {name = "Another person witout mail address"},
+    {email = "another.different.person.that.only.has.email@example.com"},
+]
+maintainers = [
+    {name = "Helena Laasch", email = "helena.laasch@gmx.ch"},
+]
+description = "In-situ radiometric calibration of TLS"
+version = "1.0.0"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.10"
+keywords = ["radiometric calibration", "TLS", "intensity"]
+license = {text = "Proprietary"} # To be changed once released
+classifiers = [ # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Private :: Do Not Upload" # REMOVE BEFORE FLIGHT -- PyPI will always reject packages with classifiers beginning with Private ::
+]
+
+dependencies = [ # https://packaging.python.org/en/latest/specifications/dependency-specifiers/#dependency-specifiers
+                # https://packaging.python.org/en/latest/specifications/version-specifiers/#id5
+    "numpy ~= 1.25",
+    "pandas ~= 2.0",
+    "scipy ~= 1.11",
+    "joblib ~= 1.4",
+    "matplotlib ~= 3.7",
+    "pye57 ~= 0.4",
+    "plyfile ~= 1.0"
+]
+
+#dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://example.com"
+Documentation = "https://readthedocs.org"
+Repository = "https://github.com/me/spam.git"
+Issues = "https://github.com/me/spam/issues"
+Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+
+#[project.optional-dependencies]
+#doc = ["sphinx"]
+#dev = [
+#    "black",  # Code formatter to make it consistant with PEP rules
+#    "flake8", # Code linter: Analyzes source code for errors, vulnerabilities, and stylistic issues
+#]
+#
+#[project.scripts]
+#moduleA-cli = "InsituRadi.__main__"
+#
