@@ -1,0 +1,66 @@
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# PyCharm specific
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code settings (if you use it alongside PyCharm)
+.vscode/
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+*.egg
+pip-wheel-metadata/
+
+# Ignore specific egg-info in src folder
+src/InsitRadi.egg-info/
+
+# Unit test / coverage reports
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+pytest_cache/
+htmlcov/
+
+# Jupyter notebooks
+.ipynb_checkpoints
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Temporary files
+*.bak
+*.swp
+*.tmp
+
+# macOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+
+# Python IDE / tools
+.pytest_cache/
+mypy_cache/
+__pypackages__/
