@@ -1,7 +1,7 @@
 import subprocess
 from pathlib import Path
-from InsituRadi.utils import del_files_in_folder
-from InsituRadi.config import CLOUDCOMPARE_PATH
+from insituradi.utils import del_files_in_folder
+from insituradi.config import CLOUDCOMPARE_PATH
 
 
 def spatial_ss_pcds_individually(input_folderpath: Path, output_folderpath: Path, radius: float = 0.1,

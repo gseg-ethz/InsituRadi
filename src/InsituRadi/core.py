@@ -1,8 +1,8 @@
 from pathlib import Path
 import numpy as np
-from InsituRadi.tls_pcd import TLS_PCDs
-from InsituRadi import cloudcompare_commands as cc
-from InsituRadi.utils import del_files_in_folder
+from insituradi.tls_pcd import TLS_PCDs
+from insituradi import cloudcompare_commands as cc
+from insituradi.utils import del_files_in_folder
 
 
 def preprocessing_radiometric_compensation(input_folder_pcd: Path, output_folder: Path, fileformat_input: str,
@@ -75,5 +75,13 @@ def preprocessing_radiometric_compensation(input_folder_pcd: Path, output_folder
 
     # Save filtered point clouds to output folder
     filtered_pcd.write_pcds_in_separate_files_ply(output_folder / "filtered_pcds")
+
+    return
+
+
+def cut_sample_of_timeseries():
+
+
+
 
     return

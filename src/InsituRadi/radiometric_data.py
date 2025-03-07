@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import scipy
-from InsituRadi.tls_pcd import TLS_PCDs
+from insituradi.tls_pcd import TLS_PCDs
 
 
 @dataclass

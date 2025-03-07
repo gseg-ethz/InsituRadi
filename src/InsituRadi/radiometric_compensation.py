@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
-from InsituRadi.tls_pcd import TLS_PCDs
-from InsituRadi.radiometric_data import RadiometricData
+from insituradi.tls_pcd import TLS_PCDs
+from insituradi.radiometric_data import RadiometricData
 from joblib import dump, load
 from matplotlib import pyplot as plt
 

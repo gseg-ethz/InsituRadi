@@ -1,10 +1,11 @@
-from pathlib import Path
-import numpy as np
-from InsituRadi.core import preprocessing_radiometric_compensation
-from InsituRadi.radiometric_compensation import RadiometricCompensation
-from InsituRadi.radiometric_models import SmoothingSplines, AdaptedLambertianModel
-from InsituRadi.tls_pcd import TLS_PCDs
 import argparse
+from pathlib import Path
+
+import numpy as np
+from insituradi.core import preprocessing_radiometric_compensation
+from insituradi.radiometric_compensation import RadiometricCompensation
+from insituradi.radiometric_models import SmoothingSplines, AdaptedLambertianModel
+from insituradi.tls_pcd import TLS_PCDs
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--project_path', type=Path,

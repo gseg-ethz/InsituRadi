@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import splrep, BSpline
 from scipy.optimize import curve_fit
-from InsituRadi.radiometric_data import RadiometricData
+from insituradi.radiometric_data import RadiometricData
 
 
 class RadiometricModel(ABC):
