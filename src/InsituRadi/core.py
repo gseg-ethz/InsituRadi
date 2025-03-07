@@ -77,11 +77,3 @@ def preprocessing_radiometric_compensation(input_folder_pcd: Path, output_folder
     filtered_pcd.write_pcds_in_separate_files_ply(output_folder / "filtered_pcds")
 
     return
-
-
-def cut_sample_of_timeseries():
-
-
-
-
-    return

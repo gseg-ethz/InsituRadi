@@ -214,7 +214,7 @@ class TLS_PCDs:
         Returns:
             TLS_PCDs: Instance of TLS_PCDs containing the loaded point cloud.
         """
-        print("Started loading pcd from ply.")
+        print("Started loading pcd from ply: "+path.stem)
         plydata = PlyData.read(path)
         coord = np.empty((plydata['vertex'].count, 3,), dtype=float)
         coord[:, 0] = plydata["vertex"]["x"]
@@ -246,6 +246,47 @@ class TLS_PCDs:
                 scalar_fields[sf] = np.array(plydata["vertex"][sf]).squeeze()
 
         return cls(coord=coord, normals=normals, colors=colors, scalar_fields=scalar_fields, pcd_filenames=[path.stem])
+
+    @classmethod
+    def load_single_pcd_e57(cls, path: Path):
+        """
+        Load a single point cloud from a .e57 file.
+
+        Args:
+            path (Path): Path to the .e57 file.
+
+        Returns:
+            TLS_PCDs: Instance of TLS_PCDs containing the loaded point cloud.
+        """
+        print("Started loading pcd from e57: "+path.stem)
+
+        # Read E57 file contents using pye57 library
+        e57 = pye57.E57(str(path))
+
+        # Extract raw scan data with intensity values
+        data = e57.read_scan(0, intensity=True)
+
+        # Get scanner transformation metadata from file header
+        header = e57.get_header(0)
+        rot = header.rotation_matrix
+        transl = header.translation
+        transm = np.concatenate(
+            (np.concatenate((rot, np.transpose(np.array([transl]))), axis=1), np.array([[0, 0, 0, 1]])))
+
+        # Prepare intensity data (convert to column vector and remove singleton dimension)
+        intensity = np.transpose(np.array([data["intensity"]]))
+        scalar_fields = {"scalar_Intensity": intensity.squeeze()}
+
+        # Create coordinate matrix from Cartesian components (N x 3 array)
+        coord = np.transpose(
+            np.vstack((np.array([data["cartesianX"]]), np.array([data["cartesianY"]]), np.array([data["cartesianZ"]]))))
+
+        # Transform coordinates to target system using inverse scanner transform
+        coord = np.matmul(np.linalg.inv(transm),
+                                np.concatenate((coord, np.ones((coord.shape[0], 1))), axis=1).T)
+        coord = coord[0:3, :].T
+
+        return cls(coord=coord, normals=None, colors=None, scalar_fields=scalar_fields, pcd_filenames=[path.stem])
 
     def set_scanner_center_from_e57(self, folder_e57: Path):
         """
@@ -424,6 +465,27 @@ class TLS_PCDs:
 
         print("Finished filtering pcd.")
         return filtered_pcd
+
+    def select_by_index(self, index: np.ndarray):
+        """
+        Create a subset of the point cloud by selecting points using a boolean/index mask array.
+
+        Parameters:
+            index (np.ndarray): Boolean mask or integer index array for point selection.
+                                Shape should match the number of points (self.coord.shape[0]).
+
+        Returns:
+            TLS_PCDs: New point cloud instance containing only the selected points.
+        """
+        # Filter scalar fields using the index mask/indices
+        selected_scalar_fields = {sf: values[index] for sf, values in self.scalar_fields.items()}
+        # Create new point cloud instance with selected points
+        selected_pcd = TLS_PCDs(coord=self.coord[index, :],
+                                colors=self.colors[index, :] if self.colors is not None else None,
+                                normals=self.normals[index, :] if self.normals is not None else None,
+                                scalar_fields=selected_scalar_fields, pcd_filenames=self.pcd_filenames,
+                                scanner_center=self.scanner_center)
+        return selected_pcd
 
     def delete_scalar_field(self, scalar_field):
         """
