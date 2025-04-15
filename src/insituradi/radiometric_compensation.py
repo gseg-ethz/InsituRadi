@@ -25,7 +25,6 @@ class RadiometricCompensation:
         """
         self.AOI_model = AOI_model
         self.Range_model = Range_model
-        self.
 
     @classmethod
     def load_from_file(cls, path: Path):
