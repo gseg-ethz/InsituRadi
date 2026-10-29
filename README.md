@@ -1,6 +1,6 @@
 This repository contains the source code and an instruction how to use the tool for in-situ radiometric calibration of TLS. It accompanies the recent (submitted) publication:
 
-# Automatic in-situ radiometric calibration of TLS: Compensating distance and angle of incidence effects using overlapping scans (submitted)
+# Automatic in-situ radiometric calibration of TLS: Compensating distance and angle of incidence effects using overlapping scans
 
 **[Helena Laasch](https://gseg.igp.ethz.ch/people/scientific-assistance/helena-laasch.html), [Tomislav Medic](https://gseg.igp.ethz.ch/people/scientific-assistance/tomislav-medic.html), [Andreas Wieser](https://gseg.igp.ethz.ch/people/group-head/prof-dr--andreas-wieser.html)**
 

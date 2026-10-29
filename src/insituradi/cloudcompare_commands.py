@@ -1,5 +1,7 @@
 import subprocess
 from pathlib import Path
+
+import numpy as np
 from insituradi.utils import del_files_in_folder
 from insituradi.config import CLOUDCOMPARE_PATH
 
@@ -100,6 +102,10 @@ def estimate_normals(input_folderpath: Path, output_folderpath: Path, radius: fl
             pcd_file) + "' -OCTREE_NORMALS " + str(
             radius) + " -MODEL LS -C_EXPORT_FMT " + output_filetype.upper() + " -SAVE_CLOUDS FILE '" + str(
             output_folderpath / pcd_file.stem) + "." + output_filetype + "'"
+        # cc_command = "cd '" + str(CLOUDCOMPARE_PATH) + "'\n.\CloudCompare -AUTO_SAVE OFF -o '" + str(
+        #     pcd_file) + "' -OCTREE_NORMALS " + str(
+        #     radius) + " -MODEL LS -C_EXPORT_FMT " + output_filetype.upper() + " -SAVE_CLOUDS FILE '" + str(
+        #     output_folderpath / pcd_file.stem) + "." + output_filetype + "'"
 
         # Execute the command using PowerShell
         completed = subprocess.run(["powershell", "-Command", cc_command], capture_output=True)
@@ -175,3 +181,28 @@ def multistage_spatial_ss(input_folderpath: Path, output_folderpath: Path, radiu
     del_files_in_folder(output_folderpath / "merged_pcd")
     print("Finish multi-stage spatial subsampling.")
     return
+
+def nearest_sf(input_folderpath_source: Path, input_folderpath_target: Path, output_folderpath: Path,new_sf_name: str,input_filetype_source: str = "asc",input_filetype_target: str = "ply"):
+    print("Start nearest sf field.")
+    output_folderpath.mkdir(parents=True, exist_ok=True)
+    path_pcds_source = list(input_folderpath_source.glob("*." + input_filetype_source))
+    path_pcds_target = list(input_folderpath_target.glob("*." + input_filetype_target))
+    for i in np.arange(len(path_pcds_target)):
+        pcd_file_source = path_pcds_source[i]
+        pcd_file_target = path_pcds_target[i]
+        # Construct the CloudCompare command for normal estimation
+        cc_command = "cd '" + str(CLOUDCOMPARE_PATH) + "'\n.\CloudCompare -AUTO_SAVE OFF -o '" + str(
+            pcd_file_source) + "' -o '" + str(pcd_file_target) + "' -SF_INTERP 1 -RENAME_SF -1 " + new_sf_name + " -SAVE_CLOUDS FILE " + str(
+            output_folderpath / pcd_file_source.stem) + ".asc" + str(output_folderpath / pcd_file_source.stem) + ".ply"
+        # cc_command = "cd '" + str(CLOUDCOMPARE_PATH) + "'\n.\CloudCompare -SILENT -AUTO_SAVE OFF -o '" + str(
+        #     pcd_file) + "' -OCTREE_NORMALS " + str(
+        #     radius) + " -MODEL LS -C_EXPORT_FMT " + output_filetype.upper() + " -SAVE_CLOUDS FILE '" + str(
+        #     output_folderpath / pcd_file.stem) + "." + output_filetype + "'"
+
+        # Execute the command using PowerShell
+        completed = subprocess.run(["powershell", "-Command", cc_command], capture_output=True)
+        if completed.returncode != 0:
+            print("An error occured: %s", completed.stderr)
+        else:
+            print("Reflectance have been interpolated for " + pcd_file_target.stem + ".")
+
